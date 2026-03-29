@@ -52,7 +52,7 @@ body.is-dragging * {
 .app-shell {
   width: min(1600px, 100%);
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -158,6 +158,10 @@ body.is-dragging * {
   flex-wrap: wrap;
 }
 
+.action-group {
+  justify-content: flex-start;
+}
+
 .primary-btn,
 .secondary-btn,
 .difficulty-pill,
@@ -226,7 +230,7 @@ body.is-dragging * {
 
 .info-strip {
   display: grid;
-  grid-template-columns: minmax(200px, 0.8fr) auto minmax(320px, 1.35fr);
+  grid-template-columns: minmax(220px, 0.95fr) minmax(360px, 1.2fr);
   align-items: center;
   padding: 6px 12px 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -235,11 +239,16 @@ body.is-dragging * {
 
 .message-box {
   min-height: 1.15rem;
+  line-height: 1.35;
   font-size: 0.88rem;
 }
 
 .status-aux {
-  display: contents;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
 }
 
 .stock-cluster {
@@ -380,6 +389,7 @@ body.is-dragging * {
   min-height: 0;
   overflow: auto;
   padding: 2px 2px 8px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tableau {
@@ -778,6 +788,10 @@ body.is-dragging * {
     grid-template-columns: 1fr;
   }
 
+  .status-aux {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
   .foundation-area {
     grid-template-columns: repeat(4, minmax(52px, 1fr));
   }
@@ -789,42 +803,117 @@ body.is-dragging * {
 
 @media (max-width: 720px) {
   :root {
-    --card-width: clamp(56px, 15vw, 74px);
-    --stack-gap: 10px;
+    --card-width: clamp(62px, 18vw, 72px);
+    --stack-gap: 8px;
   }
 
   .app-shell {
-    gap: 10px;
-    padding: 10px 8px 12px;
+    gap: 6px;
+    padding: 6px 6px 8px;
   }
 
   .header-main {
     grid-template-columns: 1fr;
-    padding: 12px 12px 8px;
+    gap: 8px;
+    padding: 8px 8px 6px;
+  }
+
+  .brand-block {
+    justify-content: center;
+  }
+
+  .brand-block h1 {
+    font-size: 1.3rem;
   }
 
   .stats-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
 
-  .toolbar-group,
+  .stat {
+    padding: 8px;
+    border-radius: 11px;
+  }
+
+  .toolbar {
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .action-group,
   .difficulty-group {
     width: 100%;
-    justify-content: flex-start;
+  }
+
+  .action-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .action-group > button {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 0;
+  }
+
+  .difficulty-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .difficulty-group .group-label {
+    display: none;
+  }
+
+  .difficulty-pills {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+  }
+
+  .difficulty-pill {
+    width: 100%;
+    min-height: 34px;
+    padding: 6px 0;
+    font-size: 0.86rem;
   }
 
   .info-strip {
-    padding: 8px 12px 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 6px 8px 8px;
+  }
+
+  .message-box {
+    font-size: 0.78rem;
+    min-height: auto;
+  }
+
+  .status-aux {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 8px;
+    align-items: stretch;
   }
 
   .tableau-section {
-    padding: 10px;
+    padding: 8px 8px 10px;
+    border-radius: 18px;
+  }
+
+  .tableau-scroll {
+    padding: 2px 0 10px;
+    scroll-snap-type: x proximity;
   }
 
   .tableau {
     width: max-content;
     min-width: max-content;
     grid-template-columns: repeat(10, var(--card-width));
+    gap: var(--stack-gap);
   }
 
   .card {
@@ -838,22 +927,41 @@ body.is-dragging * {
   }
 
   .stock-cluster {
-    width: 84px;
-    height: 70px;
+    width: 96px;
+    height: 84px;
+    justify-self: start;
   }
 
   .stock-button {
-    width: 44px;
-    height: 62px;
+    width: 56px;
+    height: 78px;
+  }
+
+  .stock-badge {
+    right: 2px;
+    top: 0;
   }
 
   .foundation-area {
-    grid-template-columns: repeat(8, minmax(26px, 1fr));
-    gap: 5px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 32px;
+    gap: 6px;
+    align-content: start;
   }
 
   .foundation-slot {
-    height: 46px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .foundation-stack strong {
+    font-size: 0.82rem;
+  }
+
+  .column {
+    scroll-snap-align: start;
+    min-height: calc(var(--card-height) + 36px);
+    padding-top: 10px;
   }
 }
 
