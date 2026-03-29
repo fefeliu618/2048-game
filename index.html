@@ -180,14 +180,11 @@
             left: 12px;
             right: 12px;
             bottom: 12px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 10px;
             pointer-events: none;
         }
 
         .tile {
+            position: absolute;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -195,8 +192,7 @@
             font-weight: 600;
             font-size: 32px;
             color: var(--text-dark);
-            transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
-            position: absolute;
+            transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(25% - 7.5px);
             height: calc(25% - 7.5px);
         }
@@ -324,6 +320,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
+            z-index: 100;
         }
 
         .game-over-overlay.show {
@@ -436,7 +433,6 @@
                 left: 10px;
                 right: 10px;
                 bottom: 10px;
-                gap: 8px;
             }
             
             .game-over-text {
@@ -561,7 +557,7 @@
         }
 
         // 渲染方块
-        function renderTiles(newTile = null, mergedTiles = []) {
+        function renderTiles() {
             const container = document.getElementById('tileContainer');
             container.innerHTML = '';
             
@@ -573,41 +569,16 @@
                         tile.className = 'tile tile-' + (value <= 2048 ? value : 'super');
                         tile.textContent = value;
                         
-                        // 设置位置
-                        let top = r * (100 / 4) + '%';
-                        let left = c * (100 / 4) + '%';
-                        tile.style.top = top;
-                        tile.style.transform = `translateY(${r * 10}px)`;
-                        
-                        // 新方块动画
-                        if (newTile && newTile.r === r && newTile.c === c) {
-                            tile.classList.add('tile-new');
-                        }
-                        
-                        // 合并动画
-                        if (mergedTiles.some(t => t.r === r && t.c === c)) {
-                            tile.classList.add('tile-merged');
-                        }
+                        // 设置位置 - 使用百分比定位
+                        let topPercent = r * 25;
+                        let leftPercent = c * 25;
+                        tile.style.top = topPercent + '%';
+                        tile.style.left = leftPercent + '%';
                         
                         container.appendChild(tile);
                     }
                 }
             }
-            
-            // 延迟更新位置实现平滑移动效果
-            setTimeout(() => {
-                const tiles = container.children;
-                let index = 0;
-                for (let r = 0; r < 4; r++) {
-                    for (let c = 0; c < 4; c++) {
-                        if (grid[r][c] > 0 && tiles[index]) {
-                            tiles[index].style.transform = `translateY(0)`;
-                            tiles[index].style.transition = 'transform 0.1s ease-out';
-                        }
-                        if (grid[r][c] > 0) index++;
-                    }
-                }
-            }, 10);
         }
 
         // 移动逻辑
@@ -675,18 +646,8 @@
                     document.getElementById('bestScore').textContent = bestScore;
                 }
                 
-                let newTile = {r: Math.floor(Math.random() * 4), c: Math.floor(Math.random() * 4)};
-                // 找到新方块的正确位置
-                for (let r = 0; r < 4; r++) {
-                    for (let c = 0; c < 4; c++) {
-                        if (grid[r][c] > 0 && newGrid[r][c] !== grid[r][c]) {
-                            // 这个位置是新建的
-                        }
-                    }
-                }
-                
                 addNewTile();
-                renderTiles(null, mergedTiles);
+                renderTiles();
                 checkGameOver();
             }
         }
