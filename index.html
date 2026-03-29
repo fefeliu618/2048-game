@@ -3,134 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>2048 网页游戏</title>
+    <title>2048 - 经典数字游戏</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #faf8ef;
+            --grid-bg: #bbada0;
+            --cell-bg: rgba(238, 228, 218, 0.35);
+            --text-dark: #776e65;
+            --text-light: #f9f6f2;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #faf8ef 0%, #f0e6d3 100%);
+            font-family: 'Fredoka', 'PingFang SC', sans-serif;
+            background: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(237, 207, 114, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(246, 94, 59, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(187, 173, 160, 0.05) 0%, transparent 70%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
+        .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        h1 {
-            font-size: 56px;
-            color: #776e65;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 8px;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .score-container {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 52px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-shadow: 3px 3px 0 rgba(237, 207, 114, 0.5);
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-dark);
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+
+        .score-wrapper {
+            display: flex;
+            gap: 10px;
         }
 
         .score-box {
-            background: linear-gradient(145deg, #bbada0, #a69b8c);
-            padding: 12px 24px;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #bbada0 0%, #a69b8c 100%);
+            padding: 8px 20px;
+            border-radius: 10px;
             text-align: center;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+            min-width: 80px;
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.15),
+                inset 0 2px 4px rgba(255,255,255,0.2),
+                inset 0 -2px 4px rgba(0,0,0,0.1);
         }
 
         .score-label {
-            font-size: 12px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.7);
             text-transform: uppercase;
-            opacity: 0.9;
             letter-spacing: 1px;
         }
 
         .score-value {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .new-game-btn {
-            background: linear-gradient(145deg, #8f7a66, #7d6a56);
+            background: linear-gradient(145deg, #8f7a66 0%, #7a6a56 100%);
             color: white;
             border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
-            transition: all 0.2s ease;
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.2),
+                inset 0 2px 4px rgba(255,255,255,0.15);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .new-game-btn:hover {
-            background: linear-gradient(145deg, #9f8b77, #8f7a66);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+            box-shadow: 
+                0 6px 16px rgba(0,0,0,0.25),
+                inset 0 2px 4px rgba(255,255,255,0.2);
         }
 
         .new-game-btn:active {
             transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+            box-shadow: 
+                0 2px 6px rgba(0,0,0,0.2),
+                inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .game-container {
-            background: linear-gradient(145deg, #bbada0, #a69b8c);
-            border-radius: 12px;
+            background: linear-gradient(145deg, #bbada0 0%, #a69b8c 100%);
+            border-radius: 16px;
             padding: 12px;
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 1;
             position: relative;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.1);
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.2),
+                inset 0 2px 6px rgba(255,255,255,0.1);
         }
 
-        .grid-container {
+        .grid-bg {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 12px;
-            width: 100%;
-            height: 100%;
+            gap: 10px;
         }
 
-        .grid-cell {
-            background: rgba(238, 228, 218, 0.35);
+        .grid-cell-bg {
+            background: rgba(238, 228, 218, 0.3);
             border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            font-weight: bold;
-            color: #776e65;
-            transition: transform 0.15s ease, background-color 0.3s ease;
+            aspect-ratio: 1;
+        }
+
+        .grid-tiles {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 10px;
+            pointer-events: none;
         }
 
         .tile {
-            animation: appear 0.2s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 32px;
+            color: var(--text-dark);
+            transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute;
+            width: calc(25% - 7.5px);
+            height: calc(25% - 7.5px);
         }
 
-        @keyframes appear {
+        .tile-new {
+            animation: tileNew 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes tileNew {
             0% {
                 opacity: 0;
                 transform: scale(0);
@@ -144,7 +219,12 @@
             }
         }
 
-        @keyframes pop {
+        .tile-merged {
+            animation: tileMerge 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        @keyframes tileMerge {
             0% {
                 transform: scale(1);
             }
@@ -157,204 +237,311 @@
         }
 
         .tile-2 { 
-            background: linear-gradient(145deg, #eee4da, #e0d5c6); 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: linear-gradient(145deg, #eee4da 0%, #e4d9ca 100%);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            font-size: 36px;
         }
         .tile-4 { 
-            background: linear-gradient(145deg, #ede0c8, #dfd0b8); 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: linear-gradient(145deg, #ede0c8 0%, #e3d4b8 100%);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            font-size: 36px;
         }
         .tile-8 { 
-            background: linear-gradient(145deg, #f2b179, #e0a069); 
-            color: #f9f6f2;
-            box-shadow: 0 4px 10px rgba(242, 177, 121, 0.4);
+            background: linear-gradient(145deg, #f2b179 0%, #e0a169 100%);
+            color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(242, 177, 121, 0.4);
+            font-size: 32px;
         }
         .tile-16 { 
-            background: linear-gradient(145deg, #f59563, #e58553); 
-            color: #f9f6f2;
-            box-shadow: 0 4px 10px rgba(245, 149, 99, 0.4);
+            background: linear-gradient(145deg, #f59563 0%, #e58553 100%);
+            color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(245, 149, 99, 0.5);
+            font-size: 28px;
         }
         .tile-32 { 
-            background: linear-gradient(145deg, #f67c5f, #e56c4f); 
-            color: #f9f6f2;
-            box-shadow: 0 4px 10px rgba(246, 124, 95, 0.4);
+            background: linear-gradient(145deg, #f67c5f 0%, #e56c4f 100%);
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(246, 124, 95, 0.5);
+            font-size: 28px;
         }
         .tile-64 { 
-            background: linear-gradient(145deg, #f65e3b, #e64e2b); 
-            color: #f9f6f2;
-            box-shadow: 0 4px 10px rgba(246, 94, 59, 0.5);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #f65e3b 0%, #e64e2b 100%);
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(246, 94, 59, 0.6);
+            font-size: 28px;
         }
         .tile-128 { 
-            background: linear-gradient(145deg, #edcf72, #ddbf62); 
-            color: #f9f6f2;
-            font-size: 32px;
-            box-shadow: 0 4px 12px rgba(237, 207, 114, 0.5);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #edcf72 0%, #ddbf62 100%);
+            color: var(--text-light);
+            box-shadow: 0 6px 18px rgba(237, 207, 114, 0.5);
+            font-size: 24px;
         }
         .tile-256 { 
-            background: linear-gradient(145deg, #edcc61, #ddbc51); 
-            color: #f9f6f2;
-            font-size: 32px;
-            box-shadow: 0 4px 12px rgba(237, 204, 97, 0.5);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #edcc61 0%, #ddbc51 100%);
+            color: var(--text-light);
+            box-shadow: 0 6px 18px rgba(237, 204, 97, 0.55);
+            font-size: 24px;
         }
         .tile-512 { 
-            background: linear-gradient(145deg, #edc850, #ddb840); 
-            color: #f9f6f2;
-            font-size: 32px;
-            box-shadow: 0 4px 12px rgba(237, 200, 80, 0.5);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #edc850 0%, #ddb840 100%);
+            color: var(--text-light);
+            box-shadow: 0 6px 18px rgba(237, 200, 80, 0.6);
+            font-size: 22px;
         }
         .tile-1024 { 
-            background: linear-gradient(145deg, #edc53f, #ddb52f); 
-            color: #f9f6f2;
-            font-size: 24px;
-            box-shadow: 0 4px 14px rgba(237, 197, 63, 0.6);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #edc53f 0%, #ddb52f 100%);
+            color: var(--text-light);
+            box-shadow: 0 7px 20px rgba(237, 197, 63, 0.65);
+            font-size: 18px;
         }
         .tile-2048 { 
-            background: linear-gradient(145deg, #edc22e, #ddb21e); 
-            color: #f9f6f2;
-            font-size: 24px;
-            box-shadow: 0 4px 14px rgba(237, 194, 46, 0.6);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #edc22e 0%, #ddb21e 100%);
+            color: var(--text-light);
+            box-shadow: 0 7px 20px rgba(237, 194, 46, 0.7);
+            font-size: 18px;
         }
         .tile-super { 
-            background: linear-gradient(145deg, #3c3a32, #2c2a22); 
-            color: #f9f6f2;
-            font-size: 20px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            animation: pop 0.3s ease-out;
+            background: linear-gradient(145deg, #3c3a32 0%, #2c2a22 100%);
+            color: var(--text-light);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            font-size: 16px;
         }
 
-        .game-over {
+        .game-over-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(238, 228, 218, 0.85);
-            backdrop-filter: blur(4px);
+            background: rgba(238, 228, 218, 0.88);
+            backdrop-filter: blur(6px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            animation: fadeIn 0.5s ease;
-            display: none;
+            border-radius: 16px;
+            animation: overlayFadeIn 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .game-over.show {
-            display: flex;
+        .game-over-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        @keyframes fadeIn {
+        @keyframes overlayFadeIn {
             from {
                 opacity: 0;
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
+                transform: scale(1);
             }
         }
 
         .game-over-text {
-            font-size: 48px;
-            font-weight: bold;
-            color: #776e65;
-            margin-bottom: 25px;
+            font-size: 44px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        .instructions {
-            margin-top: 25px;
-            color: #776e65;
-            font-size: 14px;
-            text-align: center;
-            max-width: 500px;
-            line-height: 1.8;
+        .best-score {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 25px;
             opacity: 0.8;
         }
 
-        @media (max-width: 520px) {
-            h1 { 
-                font-size: 42px; 
-                letter-spacing: 6px;
+        .instructions {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-dark);
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .key-icon {
+            background: linear-gradient(145deg, #bbada0, #a69b8c);
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: white;
+            font-size: 11px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
             }
-            .grid-cell { 
-                font-size: 28px; 
-                border-radius: 6px;
+            
+            h1 {
+                font-size: 40px;
             }
-            .grid-container {
-                gap: 8px;
+            
+            .header {
+                flex-wrap: wrap;
+                gap: 15px;
             }
-            .tile-128, .tile-256, .tile-512 { 
-                font-size: 22px; 
+            
+            .score-wrapper {
+                width: 100%;
+                justify-content: space-between;
             }
-            .tile-1024, .tile-2048 { 
-                font-size: 16px; 
+            
+            .new-game-btn {
+                width: 100%;
+                margin-top: 10px;
             }
-            .tile-super { 
-                font-size: 14px; 
+            
+            .tile {
+                font-size: 20px;
             }
+            
+            .tile-2, .tile-4 {
+                font-size: 26px;
+            }
+            
+            .tile-8, .tile-16, .tile-32, .tile-64 {
+                font-size: 22px;
+            }
+            
+            .tile-128, .tile-256, .tile-512 {
+                font-size: 18px;
+            }
+            
+            .tile-1024, .tile-2048, .tile-super {
+                font-size: 14px;
+            }
+            
             .game-container {
                 padding: 10px;
-                border-radius: 10px;
             }
+            
+            .grid-tiles {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                gap: 8px;
+            }
+            
             .game-over-text {
                 font-size: 36px;
             }
+            
+            .instructions {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
         }
 
-        /* 移动端优化 */
-        @media (hover: none) and (pointer: coarse) {
+        /* 移动端触摸优化 */
+        @media (hover: none) {
             .new-game-btn:active {
-                transform: scale(0.95);
+                transform: scale(0.96);
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>2048</h1>
-        <div class="score-container">
-            <div class="score-box">
-                <div class="score-label">分数</div>
-                <div class="score-value" id="score">0</div>
+    <div class="container">
+        <div class="header">
+            <div class="title-wrapper">
+                <h1>2048</h1>
+                <div class="subtitle">合并数字 挑战2048</div>
             </div>
-            <button class="new-game-btn" onclick="initGame()">新游戏</button>
+            <div class="score-wrapper">
+                <div class="score-box">
+                    <div class="score-label">分数</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">最高</div>
+                    <div class="score-value" id="bestScore">0</div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="game-container" id="gameContainer">
-        <div class="grid-container" id="grid"></div>
-        <div class="game-over" id="gameOver">
-            <div class="game-over-text">游戏结束!</div>
-            <button class="new-game-btn" onclick="initGame()">再玩一次</button>
+        
+        <button class="new-game-btn" onclick="initGame()">新游戏</button>
+        
+        <div class="game-container" id="gameContainer">
+            <div class="grid-bg">
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+                <div class="grid-cell-bg"></div>
+            </div>
+            
+            <div class="grid-tiles" id="tileContainer"></div>
+            
+            <div class="game-over-overlay" id="gameOver">
+                <div class="game-over-text">游戏结束!</div>
+                <div class="best-score">最高分: <span id="finalScore">0</span></div>
+                <button class="new-game-btn" onclick="initGame()">再玩一次</button>
+            </div>
         </div>
-    </div>
-
-    <div class="instructions">
-        <p>电脑上：使用方向键或 WASD 操作</p>
-        <p>手机上：触摸滑动操作</p>
-        <p>合并相同数字，目标 2048！</p>
+        
+        <div class="instructions">
+            <div class="instruction-item">
+                <span class="key-icon">↑↓←→</span>
+                <span>方向键操作</span>
+            </div>
+            <div class="instruction-item">
+                <span class="key-icon">WASD</span>
+                <span>键盘操作</span>
+            </div>
+            <div class="instruction-item">
+                <span class="key-icon">👆</span>
+                <span>触摸滑动</span>
+            </div>
+        </div>
     </div>
 
     <script>
         let grid = [];
         let score = 0;
+        let bestScore = localStorage.getItem('2048-best') || 0;
         let gameOver = false;
-
-        // 初始化游戏
+        
+        // 初始化
         function initGame() {
             grid = Array(4).fill().map(() => Array(4).fill(0));
             score = 0;
             gameOver = false;
-            document.getElementById('gameOver').classList.remove('show');
             document.getElementById('score').textContent = '0';
+            document.getElementById('bestScore').textContent = bestScore;
+            document.getElementById('gameOver').classList.remove('show');
+            
             addNewTile();
             addNewTile();
-            renderGrid();
+            renderTiles();
         }
 
         // 添加新方块
@@ -373,23 +560,54 @@
             }
         }
 
-        // 渲染网格
-        function renderGrid() {
-            const gridEl = document.getElementById('grid');
-            gridEl.innerHTML = '';
+        // 渲染方块
+        function renderTiles(newTile = null, mergedTiles = []) {
+            const container = document.getElementById('tileContainer');
+            container.innerHTML = '';
+            
             for (let r = 0; r < 4; r++) {
                 for (let c = 0; c < 4; c++) {
-                    let cell = document.createElement('div');
-                    cell.className = 'grid-cell';
                     let value = grid[r][c];
                     if (value > 0) {
-                        cell.classList.add('tile');
-                        cell.classList.add('tile-' + (value <= 2048 ? value : 'super'));
-                        cell.textContent = value;
+                        let tile = document.createElement('div');
+                        tile.className = 'tile tile-' + (value <= 2048 ? value : 'super');
+                        tile.textContent = value;
+                        
+                        // 设置位置
+                        let top = r * (100 / 4) + '%';
+                        let left = c * (100 / 4) + '%';
+                        tile.style.top = top;
+                        tile.style.transform = `translateY(${r * 10}px)`;
+                        
+                        // 新方块动画
+                        if (newTile && newTile.r === r && newTile.c === c) {
+                            tile.classList.add('tile-new');
+                        }
+                        
+                        // 合并动画
+                        if (mergedTiles.some(t => t.r === r && t.c === c)) {
+                            tile.classList.add('tile-merged');
+                        }
+                        
+                        container.appendChild(tile);
                     }
-                    gridEl.appendChild(cell);
                 }
             }
+            
+            // 延迟更新位置实现平滑移动效果
+            setTimeout(() => {
+                const tiles = container.children;
+                let index = 0;
+                for (let r = 0; r < 4; r++) {
+                    for (let c = 0; c < 4; c++) {
+                        if (grid[r][c] > 0 && tiles[index]) {
+                            tiles[index].style.transform = `translateY(0)`;
+                            tiles[index].style.transition = 'transform 0.1s ease-out';
+                        }
+                        if (grid[r][c] > 0) index++;
+                    }
+                }
+            }, 10);
         }
 
         // 移动逻辑
@@ -398,6 +616,7 @@
 
             let moved = false;
             let newGrid = JSON.parse(JSON.stringify(grid));
+            let mergedTiles = [];
 
             if (direction === 'left' || direction === 'right') {
                 for (let r = 0; r < 4; r++) {
@@ -408,6 +627,7 @@
                         if (row[i] === row[i + 1]) {
                             row[i] *= 2;
                             score += row[i];
+                            mergedTiles.push({r, c: direction === 'left' ? i : 3 - i});
                             row[i + 1] = 0;
                         }
                     }
@@ -429,6 +649,7 @@
                         if (col[i] === col[i + 1]) {
                             col[i] *= 2;
                             score += col[i];
+                            mergedTiles.push({r: direction === 'up' ? i : 3 - i, c});
                             col[i + 1] = 0;
                         }
                     }
@@ -447,8 +668,25 @@
             if (moved) {
                 grid = newGrid;
                 document.getElementById('score').textContent = score;
+                
+                if (score > bestScore) {
+                    bestScore = score;
+                    localStorage.setItem('2048-best', bestScore);
+                    document.getElementById('bestScore').textContent = bestScore;
+                }
+                
+                let newTile = {r: Math.floor(Math.random() * 4), c: Math.floor(Math.random() * 4)};
+                // 找到新方块的正确位置
+                for (let r = 0; r < 4; r++) {
+                    for (let c = 0; c < 4; c++) {
+                        if (grid[r][c] > 0 && newGrid[r][c] !== grid[r][c]) {
+                            // 这个位置是新建的
+                        }
+                    }
+                }
+                
                 addNewTile();
-                renderGrid();
+                renderTiles(null, mergedTiles);
                 checkGameOver();
             }
         }
@@ -463,24 +701,17 @@
                 }
             }
             gameOver = true;
+            document.getElementById('finalScore').textContent = score;
             document.getElementById('gameOver').classList.add('show');
         }
 
         // 键盘事件
         document.addEventListener('keydown', (e) => {
             const keyMap = {
-                'ArrowUp': 'up',
-                'ArrowDown': 'down', 
-                'ArrowLeft': 'left',
-                'ArrowRight': 'right',
-                'w': 'up',
-                'W': 'up',
-                's': 'down',
-                'S': 'down',
-                'a': 'left',
-                'A': 'left',
-                'd': 'right',
-                'D': 'right'
+                'ArrowUp': 'up', 'ArrowDown': 'down', 
+                'ArrowLeft': 'left', 'ArrowRight': 'right',
+                'w': 'up', 'W': 'up', 's': 'down', 'S': 'down',
+                'a': 'left', 'A': 'left', 'd': 'right', 'D': 'right'
             };
             if (keyMap[e.key]) {
                 e.preventDefault();
@@ -489,32 +720,27 @@
         });
 
         // 触摸和鼠标滑动
-        let startX, startY, endX, endY;
+        let startX, startY, isDragging = false;
         const container = document.getElementById('gameContainer');
 
         function handleStart(x, y) {
             startX = x;
             startY = y;
+            isDragging = true;
         }
 
         function handleEnd(x, y) {
-            if (gameOver) return;
-            endX = x;
-            endY = y;
+            if (!isDragging || gameOver) return;
+            isDragging = false;
             
-            let dx = endX - startX;
-            let dy = endY - startY;
-            
-            let minSwipe = 30;
+            let dx = x - startX;
+            let dy = y - startY;
+            let minSwipe = 40;
             
             if (Math.abs(dx) > Math.abs(dy)) {
-                if (Math.abs(dx) > minSwipe) {
-                    move(dx > 0 ? 'right' : 'left');
-                }
+                if (Math.abs(dx) > minSwipe) move(dx > 0 ? 'right' : 'left');
             } else {
-                if (Math.abs(dy) > minSwipe) {
-                    move(dy > 0 ? 'down' : 'up');
-                }
+                if (Math.abs(dy) > minSwipe) move(dy > 0 ? 'down' : 'up');
             }
         }
 
@@ -536,6 +762,10 @@
 
         container.addEventListener('mouseup', (e) => {
             handleEnd(e.clientX, e.clientY);
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isDragging = false;
         });
 
         // 启动游戏
