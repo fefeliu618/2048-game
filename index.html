@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>2048 | Aureate Edition</title>
+  <meta
+    name="description"
+    content="一款兼顾 PC 鼠标拖拽和手机触屏滑动操作的精致 2048 页面游戏。"
+  >
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-orb background-orb-left"></div>
+  <div class="background-orb background-orb-right"></div>
+
+  <main class="app-shell">
+    <section class="hero-panel panel">
+      <div class="hero-copy">
+        <span class="eyebrow">AUREATE PUZZLE EXPERIENCE</span>
+        <h1>2048</h1>
+        <p class="hero-text">
+          在鎏金质感与深色光影构成的沉浸式页面里，合并方块、积累分数，享受兼容桌面与移动端的流畅操作体验。
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <article class="stat-card">
+          <span>当前分数</span>
+          <strong id="score">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>最高纪录</span>
+          <strong id="best-score">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>本局步数</span>
+          <strong id="move-count">0</strong>
+        </article>
+      </div>
+
+      <div class="actions-row">
+        <button class="action-button action-button-primary" id="new-game-btn" type="button">重新开始</button>
+        <button class="action-button" id="undo-btn" type="button">撤销一步</button>
+        <button class="action-button" id="hint-btn" type="button">操作提示</button>
+      </div>
+    </section>
+
+    <section class="playground">
+      <section class="board-panel panel">
+        <div class="board-head">
+          <div>
+            <p class="section-kicker">Swipe / Drag</p>
+            <h2>棋盘战场</h2>
+          </div>
+          <div class="gesture-tags">
+            <span>PC：按住棋盘拖动鼠标</span>
+            <span>手机：在棋盘上滑动</span>
+          </div>
+        </div>
+
+        <div class="board-frame">
+          <div class="board-grid" id="board" aria-label="2048 游戏棋盘"></div>
+          <div class="board-overlay is-hidden" id="board-overlay" aria-live="polite">
+            <div class="overlay-card">
+              <span class="overlay-eyebrow" id="overlay-eyebrow">精彩继续</span>
+              <h3 id="overlay-title">状态提示</h3>
+              <p id="overlay-text">继续合并方块，冲击更高分数。</p>
+              <div class="overlay-actions">
+                <button class="action-button action-button-primary" id="overlay-primary-btn" type="button">继续挑战</button>
+                <button class="action-button" id="overlay-secondary-btn" type="button">再来一局</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="board-footer">
+          <p>目标：合并出 <strong>2048</strong>。系统会自动保存你的最高分。</p>
+          <div class="status-pill" id="status-pill">准备就绪</div>
+        </div>
+      </section>
+
+      <aside class="info-panel">
+        <article class="info-card panel">
+          <p class="section-kicker">Game Goal</p>
+          <h3>策略与节奏</h3>
+          <p>
+            尽量让大数字留在角落，优先保持棋盘上有足够空位。每一步都兼顾合并收益与后续可移动空间，能走得更远。
+          </p>
+        </article>
+
+        <article class="info-card panel">
+          <p class="section-kicker">Input Design</p>
+          <h3>双端操作一致</h3>
+          <p>
+            页面基于拖拽与滑动手势实现方向控制，桌面端使用鼠标拖动，移动端使用触屏滑动；同时也保留键盘方向键支持，方便补充操作。
+          </p>
+        </article>
+
+        <article class="info-card panel">
+          <p class="section-kicker">Local Feature</p>
+          <h3>轻量但完整</h3>
+          <p>
+            支持撤销一步、操作提示、胜利与失败状态弹层，以及本地最高分记忆。无需任何依赖，直接打开页面即可开始游戏。
+          </p>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
