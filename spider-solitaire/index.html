@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>蜘蛛纸牌</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="game-header">
+      <div class="header-main">
+        <div class="brand-block">
+          <div class="brand-copy">
+            <h1>蜘蛛纸牌</h1>
+          </div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stat">
+            <span class="label">分数</span>
+            <strong id="scoreValue">500</strong>
+          </div>
+          <div class="stat">
+            <span class="label">步数</span>
+            <strong id="moveValue">0</strong>
+          </div>
+          <div class="stat">
+            <span class="label">用时</span>
+            <strong id="timeValue">00:00</strong>
+          </div>
+          <div class="stat">
+            <span class="label">已完成</span>
+            <strong id="completeValue">0 / 8</strong>
+          </div>
+        </div>
+
+        <section class="toolbar" aria-label="游戏控制">
+          <div class="toolbar-group">
+            <button id="newGameBtn" class="primary-btn">新游戏</button>
+            <button id="dealBtn" class="secondary-btn">发一行</button>
+            <button id="hintBtn" class="secondary-btn">提示</button>
+          </div>
+
+          <div class="toolbar-group difficulty-group" aria-label="难度">
+            <span class="group-label">难度</span>
+            <div class="difficulty-pills" id="difficultyPills">
+              <button class="difficulty-pill active" data-suits="1">单色</button>
+              <button class="difficulty-pill" data-suits="2">双色</button>
+              <button class="difficulty-pill" data-suits="4">四色</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="info-strip">
+        <div id="messageBox" class="message-box" aria-live="polite">
+          将整组同花色的降序牌从 K 排到 A，即可自动收走。
+        </div>
+        <div class="status-aux">
+          <div class="stock-cluster">
+            <button id="stockButton" class="stock-button" aria-label="发一行牌"></button>
+            <div id="stockLabel" class="stock-badge">5</div>
+          </div>
+          <div id="foundationArea" class="foundation-area" aria-label="完成区"></div>
+        </div>
+      </section>
+    </header>
+
+    <main class="table-shell">
+      <section class="tableau-section">
+        <div class="tableau-scroll">
+          <div id="tableau" class="tableau" role="grid" aria-label="蜘蛛纸牌桌面"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="cardProbe" class="card-size-probe" aria-hidden="true"></div>
+  <div id="dragLayer" class="drag-layer" aria-hidden="true"></div>
+  <div id="fxLayer" class="fx-layer" aria-hidden="true"></div>
+  <div id="winBanner" class="win-banner hidden" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+    <div class="win-card">
+      <p class="eyebrow">Victory</p>
+      <h2 id="winTitle">你赢了</h2>
+      <p id="winSummary">全部 8 组顺利收齐。</p>
+      <button id="playAgainBtn" class="primary-btn">再来一局</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
