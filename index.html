@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
-            background: #faf8ef;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #faf8ef 0%, #f0e6d3 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -33,9 +33,11 @@
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 56px;
             color: #776e65;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 8px;
         }
 
         .score-container {
@@ -46,81 +48,185 @@
         }
 
         .score-box {
-            background: #bbada0;
-            padding: 10px 20px;
-            border-radius: 6px;
+            background: linear-gradient(145deg, #bbada0, #a69b8c);
+            padding: 12px 24px;
+            border-radius: 8px;
             text-align: center;
             color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
         }
 
         .score-label {
             font-size: 12px;
             text-transform: uppercase;
+            opacity: 0.9;
+            letter-spacing: 1px;
         }
 
         .score-value {
             font-size: 24px;
             font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .new-game-btn {
-            background: #8f7a66;
+            background: linear-gradient(145deg, #8f7a66, #7d6a56);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 16px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+            transition: all 0.2s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .new-game-btn:hover {
-            background: #9f8b77;
+            background: linear-gradient(145deg, #9f8b77, #8f7a66);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .new-game-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
         }
 
         .game-container {
-            background: #bbada0;
-            border-radius: 6px;
-            padding: 10px;
+            background: linear-gradient(145deg, #bbada0, #a69b8c);
+            border-radius: 12px;
+            padding: 12px;
             width: 100%;
             max-width: 500px;
             aspect-ratio: 1;
             position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.1);
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             height: 100%;
         }
 
         .grid-cell {
-            background: #cdc1b4;
-            border-radius: 3px;
+            background: rgba(238, 228, 218, 0.35);
+            border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 40px;
             font-weight: bold;
             color: #776e65;
-            transition: transform 0.1s ease;
+            transition: transform 0.15s ease, background-color 0.3s ease;
         }
 
-        .tile-2 { background: #eee4da; }
-        .tile-4 { background: #ede0c8; }
-        .tile-8 { background: #f2b179; color: #f9f6f2; }
-        .tile-16 { background: #f59563; color: #f9f6f2; }
-        .tile-32 { background: #f67c5f; color: #f9f6f2; }
-        .tile-64 { background: #f65e3b; color: #f9f6f2; }
-        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 32px; }
-        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 32px; }
-        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 32px; }
-        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 24px; }
-        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 24px; }
-        .tile-super { background: #3c3a32; color: #f9f6f2; font-size: 20px; }
+        .tile {
+            animation: appear 0.2s ease-out;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .tile-2 { 
+            background: linear-gradient(145deg, #eee4da, #e0d5c6); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .tile-4 { 
+            background: linear-gradient(145deg, #ede0c8, #dfd0b8); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .tile-8 { 
+            background: linear-gradient(145deg, #f2b179, #e0a069); 
+            color: #f9f6f2;
+            box-shadow: 0 4px 10px rgba(242, 177, 121, 0.4);
+        }
+        .tile-16 { 
+            background: linear-gradient(145deg, #f59563, #e58553); 
+            color: #f9f6f2;
+            box-shadow: 0 4px 10px rgba(245, 149, 99, 0.4);
+        }
+        .tile-32 { 
+            background: linear-gradient(145deg, #f67c5f, #e56c4f); 
+            color: #f9f6f2;
+            box-shadow: 0 4px 10px rgba(246, 124, 95, 0.4);
+        }
+        .tile-64 { 
+            background: linear-gradient(145deg, #f65e3b, #e64e2b); 
+            color: #f9f6f2;
+            box-shadow: 0 4px 10px rgba(246, 94, 59, 0.5);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-128 { 
+            background: linear-gradient(145deg, #edcf72, #ddbf62); 
+            color: #f9f6f2;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(237, 207, 114, 0.5);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-256 { 
+            background: linear-gradient(145deg, #edcc61, #ddbc51); 
+            color: #f9f6f2;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(237, 204, 97, 0.5);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-512 { 
+            background: linear-gradient(145deg, #edc850, #ddb840); 
+            color: #f9f6f2;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(237, 200, 80, 0.5);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-1024 { 
+            background: linear-gradient(145deg, #edc53f, #ddb52f); 
+            color: #f9f6f2;
+            font-size: 24px;
+            box-shadow: 0 4px 14px rgba(237, 197, 63, 0.6);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-2048 { 
+            background: linear-gradient(145deg, #edc22e, #ddb21e); 
+            color: #f9f6f2;
+            font-size: 24px;
+            box-shadow: 0 4px 14px rgba(237, 194, 46, 0.6);
+            animation: pop 0.3s ease-out;
+        }
+        .tile-super { 
+            background: linear-gradient(145deg, #3c3a32, #2c2a22); 
+            color: #f9f6f2;
+            font-size: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            animation: pop 0.3s ease-out;
+        }
 
         .game-over {
             position: absolute;
@@ -128,12 +234,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(238, 228, 218, 0.73);
+            background: rgba(238, 228, 218, 0.85);
+            backdrop-filter: blur(4px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 6px;
+            border-radius: 12px;
+            animation: fadeIn 0.5s ease;
             display: none;
         }
 
@@ -141,27 +249,68 @@
             display: flex;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .game-over-text {
-            font-size: 40px;
+            font-size: 48px;
             font-weight: bold;
             color: #776e65;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .instructions {
-            margin-top: 20px;
+            margin-top: 25px;
             color: #776e65;
             font-size: 14px;
             text-align: center;
             max-width: 500px;
+            line-height: 1.8;
+            opacity: 0.8;
         }
 
         @media (max-width: 520px) {
-            h1 { font-size: 36px; }
-            .grid-cell { font-size: 28px; }
-            .tile-128, .tile-256, .tile-512 { font-size: 22px; }
-            .tile-1024, .tile-2048 { font-size: 16px; }
-            .tile-super { font-size: 14px; }
+            h1 { 
+                font-size: 42px; 
+                letter-spacing: 6px;
+            }
+            .grid-cell { 
+                font-size: 28px; 
+                border-radius: 6px;
+            }
+            .grid-container {
+                gap: 8px;
+            }
+            .tile-128, .tile-256, .tile-512 { 
+                font-size: 22px; 
+            }
+            .tile-1024, .tile-2048 { 
+                font-size: 16px; 
+            }
+            .tile-super { 
+                font-size: 14px; 
+            }
+            .game-container {
+                padding: 10px;
+                border-radius: 10px;
+            }
+            .game-over-text {
+                font-size: 36px;
+            }
+        }
+
+        /* 移动端优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .new-game-btn:active {
+                transform: scale(0.95);
+            }
         }
     </style>
 </head>
@@ -186,9 +335,9 @@
     </div>
 
     <div class="instructions">
-        <p>电脑上：使用方向键或鼠标滑动</p>
-        <p>手机上：触摸滑动</p>
-        <p>相同数字合并，得到 2048 获胜！</p>
+        <p>电脑上：使用方向键或 WASD 操作</p>
+        <p>手机上：触摸滑动操作</p>
+        <p>合并相同数字，目标 2048！</p>
     </div>
 
     <script>
@@ -234,6 +383,7 @@
                     cell.className = 'grid-cell';
                     let value = grid[r][c];
                     if (value > 0) {
+                        cell.classList.add('tile');
                         cell.classList.add('tile-' + (value <= 2048 ? value : 'super'));
                         cell.textContent = value;
                     }
@@ -318,15 +468,23 @@
 
         // 键盘事件
         document.addEventListener('keydown', (e) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            const keyMap = {
+                'ArrowUp': 'up',
+                'ArrowDown': 'down', 
+                'ArrowLeft': 'left',
+                'ArrowRight': 'right',
+                'w': 'up',
+                'W': 'up',
+                's': 'down',
+                'S': 'down',
+                'a': 'left',
+                'A': 'left',
+                'd': 'right',
+                'D': 'right'
+            };
+            if (keyMap[e.key]) {
                 e.preventDefault();
-                const directions = {
-                    'ArrowUp': 'up',
-                    'ArrowDown': 'down', 
-                    'ArrowLeft': 'left',
-                    'ArrowRight': 'right'
-                };
-                move(directions[e.key]);
+                move(keyMap[e.key]);
             }
         });
 
